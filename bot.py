@@ -1,20 +1,14 @@
 # A Powerful Music And Management Bot
 # Property Of Rocks Indian Largest Chatting Group
-# Rocks © @Dr_Asad_Ali © Rocks
-# Owner Asad Ali + Kattai Massom + Abhimanyu Singh
-
+# Rocks © Rocks
+# Owner: Asad Ali + Kattai Massom + Abhimanyu Singh
 
 import os, logging, asyncio
 from telethon import Button
 from telethon import TelegramClient, events
-from telethon.tl.types import ChannelParticipantAdmin
-from telethon.tl.types import ChannelParticipantCreator
-from telethon.tl.types import ChannelParticipantsAdmins
+from telethon.tl.types import ChannelParticipantAdmin, ChannelParticipantCreator, ChannelParticipantsAdmins
 from telethon.tl.functions.channels import GetParticipantRequest
 from telethon.errors import UserNotParticipantError
-from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-
 
 logging.basicConfig(
     level=logging.INFO, format="%(name)s - [%(levelname)s] - %(message)s"
@@ -27,77 +21,40 @@ bot_token = os.environ.get("TOKEN", "")
 client = TelegramClient("client", api_id, api_hash).start(bot_token=bot_token)
 spam_chats = []
 
+# Admins and Owners
+ADMIN_IDS = [123456789, 8877665533]  # Ganti dengan ID Telegram admin
+OWNER_IDS = [989898989]  # Ganti dengan ID Telegram owner
 
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
     chat_id = event.chat_id
     if not event.is_private:
-        return await event.respond("ɪ ᴀᴍ ᴀʟɪᴠᴇ 🥺")
+        return await event.respond("I am alive!")
     await event.reply(
-        "━━━━━━━━━━━━━━━━━━━━━━━━\n\n✪ ɪ ᴀᴍ ᴀʟᴇxᴀ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ ᴛʜᴇ ɢʀᴏᴜᴘ ᴍᴇᴍʙᴇʀs ɪɴ ᴛᴇʟᴇɢʀᴀᴍ\n✪ ᴛʜᴀɴᴋs ғᴏʀ ᴜsɪɴɢ ʀᴜɴ /help..\n\n┏━━━━━━━━━━━━━━━━━┓\n┣★ ᴏᴡɴᴇʀ    : [ᴀsᴀᴅ ᴀʟɪ](https://t.me/Dr_Asad_Ali)\n┣★ ᴜᴘᴅᴀᴛᴇs › : [ᴀʟᴇxᴀ ʜᴇʟᴘ](https://t.me/Alexa_BotUpdates)┓\n┣★ ʀᴇᴘᴏ › : [ᴀʟᴇxᴀ ʀᴇᴘᴏ](https://github.com/TheTeamAlexa/MentionBot)\n┗━━━━━━━━━━━━━━━━━┛\n\n💞 ɪғ ʏᴏᴜ ʜᴀᴠᴇ ᴀɴʏ ǫᴜᴇsᴛɪᴏɴs ᴛʜᴇɴ\nᴅᴍ ᴛᴏ ᴍʏ [ᴏᴡɴᴇʀ](https://t.me/Jankari_Ki_Duniya) ...\n\n━━━━━━━━━━━━━━━━━━━━━━━━",
-        link_preview=False,
-        buttons=(
-            [
-                Button.url(
-                    "☀︎︎️ ᴀᴅᴅ ᴍᴇ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ☀︎︎",
-                    "https://t.me/Alexa_MentionBot?startgroup=true",
-                ),
-            ],
-            [
-                Button.url("☀︎︎ ɢʀᴏᴜᴘ ☀︎︎︎", "https://t.me/Shayri_Music_Lovers"),
-                Button.url("☀︎︎ ᴄʜᴀɴɴᴇʟ ☀︎︎", "https://t.me/Alexa_BotUpdates"),
-            ],
-            [
-                Button.url("☀︎︎ ʙʀᴏ ☀︎︎️️", "https://t.me/Kattai_massom"),
-                Button.url("☀︎︎ ᴋɪɴɢ ☀︎︎︎", "https://t.me/Jankari_Ki_Duniya"),
-            ],
-        ),
+        "Hello! I am a bot to help you mention all group members in Telegram.\nRun /help for more information.",
+        link_preview=False
     )
-
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
     chat_id = event.chat_id
     if not event.is_private:
-        return await event.respond("ᴅᴇᴀʀ sᴛᴀʀᴛ ᴍᴇ ɪɴ ᴘᴍ ᴛᴏ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴғ 🥺")
-    helptext = "✪ ʜᴇʟᴘ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n✪ ᴄᴏᴍᴍᴀɴᴅ: /mentionall\n✪ ᴄᴏᴍᴍᴀɴᴅ: /cancel ᴛᴏ ᴄᴀɴᴄᴇʟ ɢᴏɪɴɢ ᴏɴ ᴘʀᴏᴄᴇss.\n✪ ᴄᴏᴍᴍᴀɴᴅ /admin ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ ᴀᴅᴍɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ\n✪ Yᴏᴜ ᴄᴀɴ ᴜsᴇ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴡɪᴛʜ ᴛᴇxᴛ ᴡʜᴀᴛ ʏᴏᴜ ᴡᴀɴᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs.\n✪ `Example: /mentionall Good Morning!`\n✪ Yᴏᴜ ᴄᴀɴ ʏᴏᴜ ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴀs ᴀ ʀᴇᴘʟʏ ᴛᴏ ᴀɴʏ ᴍᴇssᴀɢᴇ. Bᴏᴛ ᴡɪʟʟ ᴛᴀɢ ᴜsᴇʀs ᴛᴏ ᴛʜᴀᴛ ʀᴇᴘʟɪᴇᴅ ᴍᴇsssᴀɢᴇ."
-    await event.reply(
-        helptext,
-        link_preview=False,
-        buttons=(
-            [
-                Button.url("☀︎︎ ʜᴇᴀʀᴛ", "https://t.me/Give_Me_Heart"),
-                Button.url("ʏᴏᴜᴛᴜʙᴇ ☀︎︎", "https://www.youtube.com/c/JankariKiDuniya"),
-            ]
-        ),
+        return await event.respond("Please start me in private to use this command.")
+    helptext = (
+        "Help Menu:\n\n"
+        "Commands:\n"
+        "/mentionall - Mention all members in the group.\n"
+        "/cancel - Cancel an ongoing process.\n"
+        "/admin - Mention all admins in the group.\n\n"
+        "You can use these commands with a custom message or as a reply to another message."
     )
+    await event.reply(helptext, link_preview=False)
 
-
-@client.on(events.NewMessage(pattern="^/owner$"))
-async def help(event):
-    chat_id = event.chat_id
-    if not event.is_private:
-        return await event.respond("Tunggu sebentar")
-    helptext = "✪ ᴏᴡɴᴇʀ ᴍᴇɴᴜ ᴏғ ᴀʟᴇxᴀ ᴍᴇɴᴛɪᴏɴ\n\n✪ ᴍʏ ᴏᴡɴᴇʀ ɪs [ᴀsᴀᴅ ᴀʟɪ](https://t.me/fsyrl9)\n✪ ᴏғғɪᴄɪᴀʟ ᴍᴇᴍʙᴇʀ ᴏғ ʀᴏᴄᴋs\n✪ ʏᴏᴜᴛᴜʙᴇ [ᴄʜᴀɴɴᴇʟ](https://www.youtube.com/c/JankariKiDuniya)\n✪ ғᴜᴛᴜʀᴇ ᴀɴᴇsᴛʜᴇᴛɪᴄ."
-    await event.reply(
-        helptext,
-        link_preview=False,
-        buttons=(
-            [
-                Button.url("☀︎︎ ʜᴇᴀʀᴛ", "https://t.me/Give_Me_Heart"),
-                Button.url("ʏᴏᴜᴛᴜʙᴇ ☀︎︎", "https://www.youtube.com/c/JankariKiDuniya"),
-            ]
-        ),
-    )
-
-
-@client.on(events.NewMessage(pattern="^/mentionall ?(.*)"))
+@client.on(events.NewMessage(pattern="^/utag ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
     if event.is_private:
-        return await event.respond(
-            "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs ᴀɴᴅ ᴄʜᴀɴɴᴇʟs"
-        )
+        return await event.respond("This command can only be used in groups or channels.")
 
     is_admin = False
     try:
@@ -105,58 +62,70 @@ async def mentionall(event):
     except UserNotParticipantError:
         is_admin = False
     else:
-        if isinstance(
-            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
-        ):
+        if isinstance(partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)):
             is_admin = True
     if not is_admin:
-        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ")
+        return await event.respond("Only admins can mention all.")
 
-    if event.pattern_match.group(1) and event.is_reply:
-        return await event.respond("ɢɪᴠᴇ ᴍᴇ ᴏɴᴇ ᴀʀɢᴜᴍᴇɴᴛ")
-    elif event.pattern_match.group(1):
-        mode = "text_on_cmd"
-        msg = event.pattern_match.group(1)
-    elif event.is_reply:
-        mode = "text_on_reply"
-        msg = await event.get_reply_message()
-        if msg == None:
-            return await event.respond(
-                "ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇꜰᴏʀᴇ ɪ'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)"
-            )
-    else:
-        return await event.respond(
-            "ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs"
-        )
+    message = event.pattern_match.group(1) or (await event.get_reply_message())
+    if not message:
+        return await event.respond("Please provide a message or reply to one.")
 
     spam_chats.append(chat_id)
     usrnum = 0
     usrtxt = ""
     async for usr in client.iter_participants(chat_id):
-        if not chat_id in spam_chats:
+        if chat_id not in spam_chats:
             break
         usrnum += 1
         usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
         if usrnum == 5:
-            if mode == "text_on_cmd":
-                txt = f"{usrtxt}\n\n{msg}"
-                await client.send_message(chat_id, txt)
-            elif mode == "text_on_reply":
-                await msg.reply(usrtxt)
-            await asyncio.sleep(2)
+            await client.send_message(chat_id, f"{usrtxt}\n\n{message}")
             usrnum = 0
             usrtxt = ""
-    try:
-        spam_chats.remove(chat_id)
-    except:
-        pass
+            await asyncio.sleep(2)
+    spam_chats.remove(chat_id)
 
+@client.on(events.NewMessage(pattern="^/cancel$"))
+async def cancel_spam(event):
+    if event.chat_id not in spam_chats:
+        return await event.respond("No process is ongoing.")
+    spam_chats.remove(event.chat_id)
+    await event.respond("Process stopped.")
 
-@client.on(events.NewMessage(pattern="^/admins|/admin|@admin|@admins ?(.*)"))
-async def _(event):
+@client.on(events.NewMessage(pattern="^/help$"))
+async def help(event):
+    chat_id = event.chat_id
+    if not event.is_private:
+        return await event.respond("Gunakan perintah /help untuk melihat perintah tagall pada bot")
+    helptext = """<blockquote>✪ Menu Ferdi Mention Bot
+
+✪ Command: /utag untuk memulai proses tagall.
+✪ Command: /cancel untuk menghentikan proses tagall.
+✪ Command /atag untuk memanggil semua admin di group.
+✪ Anda bisa menggunakan bot ini di group anda.
+✪ Contoh: /utag Good Morning atau /utag reply pesan.
+✪ Anda bisa menggunakan perintah /utah dengan menambahkan teks atau reply pesan </blockquote>"""
+    await event.reply(helptext)
+
+@client.on(events.NewMessage(pattern="^/owner$"))
+async def owner(event):
+    chat_id = event.chat_id
+    if not event.is_private:
+        return await event.respond("Please wait .... ")
+    ownertext = """✪ Menu Owner Bot Mention
+
+✪ Saya [ᴮ⃮⃯˅• ꜰ໑ʀᴆɪ! ᴅԍ⃮⃯⃖⃗ᴙᴤ°](https://t.me/fsyrl9) Owner
+✪ 
+✪ Store [Ferdi Store!](https://t.me/Galerifsyrl)
+✪ Info bot lain kunjungi [Ferdi Support](https://t.me/FerdiSupport)"""
+    await event.reply(ownertext)
+
+@client.on(events.NewMessage(pattern="^/atag ?(.*)"))
+async def mention_admins(event):
     chat_id = event.chat_id
     if event.is_private:
-        return await event.respond("sᴏʀʀʏ ʏᴏᴜ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀᴅᴍɪɴ ᴏɴʟʏ ɪɴ ɢʀᴏᴜᴘ")
+        return await event.respond("Hanya untuk memanggil admin group")
 
     is_admin = False
     try:
@@ -164,15 +133,13 @@ async def _(event):
     except UserNotParticipantError:
         is_admin = False
     else:
-        if isinstance(
-            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
-        ):
+        if isinstance(partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)):
             is_admin = True
     if not is_admin:
-        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ɢʀᴏᴜᴘ ᴀᴅᴍɪɴs")
+        return await event.respond("hanya admin yang bisa menggunakan perintah tersebut")
 
     if event.pattern_match.group(1) and event.is_reply:
-        return await event.respond("ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ")
+        return await event.respond("Berikan saya teks")
     elif event.pattern_match.group(1):
         mode = "text_on_cmd"
         msg = event.pattern_match.group(1)
@@ -181,11 +148,11 @@ async def _(event):
         msg = await event.get_reply_message()
         if msg == None:
             return await event.respond(
-                "ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇꜰᴏʀᴇ ɪ'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)"
+                "Tambahkan Saya di group anda dan jadikan saya admin."
             )
     else:
         return await event.respond(
-            "ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs!"
+            "Balas pesan atau beri saya beberapa teks untuk menyebutkan orang lain"
         )
 
     spam_chats.append(chat_id)
@@ -196,7 +163,7 @@ async def _(event):
         if not chat_id in spam_chats:
             break
         usrnum += 1
-        usrtxt += f" \n [{x.first_name}](tg://user?id={x.id})"
+        usrtxt += f" \n {x.first_name}"
         if usrnum == 5:
             if mode == "text_on_cmd":
                 txt = f"{usrtxt}\n\n{msg}"
@@ -212,23 +179,5 @@ async def _(event):
         pass
 
 
-@client.on(events.NewMessage(pattern="^/cancel$"))
-async def cancel_spam(event):
-    if not event.chat_id in spam_chats:
-        return await event.respond("ᴛʜᴇʀᴇ ɪs ɴᴏ ᴘʀᴏᴄᴄᴇss ᴏɴ ɢᴏɪɴɢ...")
-    else:
-        try:
-            spam_chats.remove(event.chat_id)
-        except:
-            pass
-        return await event.respond("sᴛᴏᴘᴘᴇᴅ.")
-
-
-print(">> ASAD ALEXA WORKING <<")
+print("Bot is running...")
 client.run_until_disconnected()
-
-
-# A Powerful Music And Management Bot
-# Property Of Rocks Indian Largest Chatting Group
-# Rocks © @Dr_Asad_Ali © Rocks
-# Owner Asad Ali + Harshit Sharma + Abhimanyu Singh + Krishna Ki Diwani
