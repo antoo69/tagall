@@ -1,8 +1,3 @@
-# A Powerful Music And Management Bot
-# Property Of Rocks Indian Largest Chatting Group
-# Rocks © Rocks
-# Owner: Asad Ali + Kattai Massom + Abhimanyu Singh
-
 import os, logging, asyncio
 from telethon import Button
 from telethon import TelegramClient, events
@@ -92,21 +87,6 @@ async def cancel_spam(event):
         return await event.respond("No process is ongoing.")
     spam_chats.remove(event.chat_id)
     await event.respond("Process stopped.")
-
-@client.on(events.NewMessage(pattern="^/help$"))
-async def help(event):
-    chat_id = event.chat_id
-    if not event.is_private:
-        return await event.respond("Gunakan perintah /help untuk melihat perintah tagall pada bot")
-    helptext = """<blockquote>✪ Menu Ferdi Mention Bot
-
-✪ Command: /utag untuk memulai proses tagall.
-✪ Command: /cancel untuk menghentikan proses tagall.
-✪ Command /atag untuk memanggil semua admin di group.
-✪ Anda bisa menggunakan bot ini di group anda.
-✪ Contoh: /utag Good Morning atau /utag reply pesan.
-✪ Anda bisa menggunakan perintah /utah dengan menambahkan teks atau reply pesan </blockquote>"""
-    await event.reply(helptext)
 
 @client.on(events.NewMessage(pattern="^/owner$"))
 async def owner(event):
