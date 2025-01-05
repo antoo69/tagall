@@ -184,6 +184,5 @@ async def mention_admins(event):
         pass
 
 
-
 print("Bot is running...")
 client.run_until_disconnected()
