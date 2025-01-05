@@ -21,26 +21,26 @@ spam_chats = []
 @client.on(events.NewMessage(pattern="^/start$"))
 async def start(event):
   await event.reply(
-    "__**I'm MentionAll Bot**, I will help you to mention near about all members in your group and channel 👻\nClick **/help** for more information__\n\n Follow [@The_Shikarii](https://github.com/ShikariBaaZ) on Github",
+    "__**I'm MentionAll Bot**, I will help you to mention near about all members in your group and channel 👻\nClick **/help** for more information__\n\n Follow [@FerdiSupport](https://t.me/Galerifsyrl) on Github",
     link_preview=False,
     buttons=(
       [
-        Button.url('📣 Channel', 'https://t.me/Nenen_degrees'),
-        Button.url('📦 Source', 'https://github.com/antoo69/tagll')
+        Button.url('📣 Channel', 'https://t.me/BestieVirtual'),
+        Button.url('📦 Store', 'https://t.me/Galerifsyrl')
       ]
     )
   )
 
 @client.on(events.NewMessage(pattern="^/help$"))
 async def help(event):
-  helptext = "**Help Menu of MentionAll_Bot**\n\nCommand: /utag\n__You can use this command with text what you want to say to others.__\n`Example: /mentionall ShikariBaaZ is Always on Shikar!`\n__You can you this command as a reply to any message. Bot will tag users to that replied messsage__.\n\nFollow [@The_Shikarii](https://github.com/ShikariBaaZ) on Github"
+  helptext = "**Help Menu of MentionAll_Bot**\n\nCommand: /utag\n__You can use this command with text what you want to say to others.__\n`Example: /mentionall ShikariBaaZ is Always on Shikar!`\n__You can you this command as a reply to any message. Bot will tag users to that replied messsage__.\n\nFollow [@FerdiSupport](@Galerifsyrl) Store"
   await event.reply(
     helptext,
     link_preview=False,
     buttons=(
       [
         Button.url('📣 Channel', 'https://t.me/Nenen_degrees'),
-        Button.url('📦 Source', 'https://github.com/antoo69/tagall')
+        Button.url('Store', 'https://t.me/Galerifsyrl')
       ]
     )
   )
