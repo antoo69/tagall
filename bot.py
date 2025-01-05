@@ -59,7 +59,7 @@ async def owner(event):
         return await event.respond("Please wait .... ")
     ownertext = """✪ Menu Owner Bot Mention
 
-✪ Saya [ᴮ⃮⃯˅• ꜰ໑ʀᴆɪ! ᴅԍ⃮⃯⃖⃗ᴙᴤ°](https://t.me/fsyrl9) Owner
+✪ Saya [ᴮ⃮⃯˅• ꜰ໑ʀᴆɪ! ᴅԍ⃮⃯⃖⃗ᴙᴤ°](https://t.me/fsyrl9) Owner
 ✪ 
 ✪ Store [Ferdi Store!](https://t.me/Galerifsyrl)
 ✪ Info bot lain kunjungi [Ferdi Support](https://t.me/FerdiSupport)"""
@@ -105,8 +105,8 @@ async def mentionall(event):
 
     spam_chats.append(chat_id)
     usrnum = 0
-    usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Box format
-    async for usr in client.iter_participants(chat_id):
+    usrtxt = "╒══════════════════╕\n                {text}\n╘══════════════════╛\n"  # Box format
+    async for usr in client.iter_participants(chat_id):  # This will get ALL participants
         if not chat_id in spam_chats:
             break
         usrnum += 1
@@ -119,7 +119,7 @@ async def mentionall(event):
                 await msg.reply(usrtxt)
             await asyncio.sleep(2)
             usrnum = 0
-            usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Reset box for next batch
+            usrtxt = "╒══════════════════╕\n                {text}\n╘══════════════════╛\n"  # Reset box for next batch
     try:
         spam_chats.remove(chat_id)
     except:
@@ -157,13 +157,14 @@ async def mention_admins(event):
             )
     else:
         return await event.respond(
-            "Balas pesan atau beri saya beberapa teks untuk menyebutkan orang lain"
+            "Balas pesan atau beri saya beberapa teks untuk menyebutkan admin"
         )
 
     spam_chats.append(chat_id)
     usrnum = 0
-    usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Adding the box format
+    usrtxt = "╒══════════════════╕\n                {text}\n╘══════════════════╛\n"  # Adding the box format
     chat = await event.get_input_chat()
+    # This will only get admin participants
     async for x in client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         if not chat_id in spam_chats:
             break
@@ -177,13 +178,11 @@ async def mention_admins(event):
                 await msg.reply(usrtxt)
             await asyncio.sleep(2)
             usrnum = 0
-            usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Reset the box for the next batch
+            usrtxt = "╒══════════════════╕\n                {text}\n╘══════════════════╛\n"  # Reset the box for the next batch
     try:
         spam_chats.remove(chat_id)
     except:
         pass
-
-
 
 print("Bot is running...")
 client.run_until_disconnected()
