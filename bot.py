@@ -49,7 +49,9 @@ async def help(event):
 async def mentionall(event):
     chat_id = event.chat_id
     if event.is_private:
-        return await event.respond("This command can only be used in groups or channels.")
+        return await event.respond(
+            "ᴛʜɪs ᴄᴏᴍᴍᴀɴᴅ ᴄᴀɴ ʙᴇ ᴜsᴇ ɪɴ ɢʀᴏᴜᴘs ᴀɴᴅ ᴄʜᴀɴɴᴇʟs"
+        )
 
     is_admin = False
     try:
@@ -57,29 +59,51 @@ async def mentionall(event):
     except UserNotParticipantError:
         is_admin = False
     else:
-        if isinstance(partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)):
+        if isinstance(
+            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+        ):
             is_admin = True
     if not is_admin:
-        return await event.respond("Only admins can mention all.")
+        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴs ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀʟʟ")
 
-    message = event.pattern_match.group(1) or (await event.get_reply_message())
-    if not message:
-        return await event.respond("Please provide a message or reply to one.")
+    if event.pattern_match.group(1) and event.is_reply:
+        return await event.respond("ɢɪᴠᴇ ᴍᴇ ᴏɴᴇ ᴀʀɢᴜᴍᴇɴᴛ")
+    elif event.pattern_match.group(1):
+        mode = "text_on_cmd"
+        msg = event.pattern_match.group(1)
+    elif event.is_reply:
+        mode = "text_on_reply"
+        msg = await event.get_reply_message()
+        if msg == None:
+            return await event.respond(
+                "ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇꜰᴏʀᴇ ɪ'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)"
+            )
+    else:
+        return await event.respond(
+            "ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs"
+        )
 
     spam_chats.append(chat_id)
     usrnum = 0
     usrtxt = ""
     async for usr in client.iter_participants(chat_id):
-        if chat_id not in spam_chats:
+        if not chat_id in spam_chats:
             break
         usrnum += 1
         usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
         if usrnum == 5:
-            await client.send_message(chat_id, f"{usrtxt}\n\n{message}")
+            if mode == "text_on_cmd":
+                txt = f"{usrtxt}\n\n{msg}"
+                await client.send_message(chat_id, txt)
+            elif mode == "text_on_reply":
+                await msg.reply(usrtxt)
+            await asyncio.sleep(2)
             usrnum = 0
             usrtxt = ""
-            await asyncio.sleep(2)
-    spam_chats.remove(chat_id)
+    try:
+        spam_chats.remove(chat_id)
+    except:
+        pass
 
 @client.on(events.NewMessage(pattern="^/cancel$"))
 async def cancel_spam(event):
@@ -102,10 +126,10 @@ async def owner(event):
     await event.reply(ownertext)
 
 @client.on(events.NewMessage(pattern="^/atag ?(.*)"))
-async def mention_admins(event):
+async def _(event):
     chat_id = event.chat_id
     if event.is_private:
-        return await event.respond("Hanya untuk memanggil admin group")
+        return await event.respond("sᴏʀʀʏ ʏᴏᴜ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀᴅᴍɪɴ ᴏɴʟʏ ɪɴ ɢʀᴏᴜᴘ")
 
     is_admin = False
     try:
@@ -113,13 +137,15 @@ async def mention_admins(event):
     except UserNotParticipantError:
         is_admin = False
     else:
-        if isinstance(partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)):
+        if isinstance(
+            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
+        ):
             is_admin = True
     if not is_admin:
-        return await event.respond("hanya admin yang bisa menggunakan perintah tersebut")
+        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ɢʀᴏᴜᴘ ᴀᴅᴍɪɴs")
 
     if event.pattern_match.group(1) and event.is_reply:
-        return await event.respond("Berikan saya teks")
+        return await event.respond("ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ")
     elif event.pattern_match.group(1):
         mode = "text_on_cmd"
         msg = event.pattern_match.group(1)
@@ -128,11 +154,11 @@ async def mention_admins(event):
         msg = await event.get_reply_message()
         if msg == None:
             return await event.respond(
-                "Tambahkan Saya di group anda dan jadikan saya admin."
+                "ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇꜰᴏʀᴇ ɪ'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)"
             )
     else:
         return await event.respond(
-            "Balas pesan atau beri saya beberapa teks untuk menyebutkan orang lain"
+            "ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs!"
         )
 
     spam_chats.append(chat_id)
@@ -143,7 +169,7 @@ async def mention_admins(event):
         if not chat_id in spam_chats:
             break
         usrnum += 1
-        usrtxt += f" \n {x.first_name}"
+        usrtxt += f" \n [{x.first_name}](tg://user?id={x.id})"
         if usrnum == 5:
             if mode == "text_on_cmd":
                 txt = f"{usrtxt}\n\n{msg}"
