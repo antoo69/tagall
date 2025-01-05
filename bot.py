@@ -85,12 +85,12 @@ async def mentionall(event):
 
     spam_chats.append(chat_id)
     usrnum = 0
-    usrtxt = ""
+    usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Box format
     async for usr in client.iter_participants(chat_id):
         if not chat_id in spam_chats:
             break
         usrnum += 1
-        usrtxt += f"[{usr.first_name}](tg://user?id={usr.id}) "
+        usrtxt += f"┈➤ [{usr.first_name}](tg://user?id={usr.id})\n"  # Clickable username
         if usrnum == 5:
             if mode == "text_on_cmd":
                 txt = f"{usrtxt}\n\n{msg}"
@@ -99,11 +99,12 @@ async def mentionall(event):
                 await msg.reply(usrtxt)
             await asyncio.sleep(2)
             usrnum = 0
-            usrtxt = ""
+            usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Reset box for next batch
     try:
         spam_chats.remove(chat_id)
     except:
         pass
+
 
 @client.on(events.NewMessage(pattern="^/cancel$"))
 async def cancel_spam(event):
@@ -126,10 +127,10 @@ async def owner(event):
     await event.reply(ownertext)
 
 @client.on(events.NewMessage(pattern="^/atag ?(.*)"))
-async def _(event):
+async def mention_admins(event):
     chat_id = event.chat_id
     if event.is_private:
-        return await event.respond("sᴏʀʀʏ ʏᴏᴜ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ᴀᴅᴍɪɴ ᴏɴʟʏ ɪɴ ɢʀᴏᴜᴘ")
+        return await event.respond("Hanya untuk memanggil admin group")
 
     is_admin = False
     try:
@@ -137,15 +138,13 @@ async def _(event):
     except UserNotParticipantError:
         is_admin = False
     else:
-        if isinstance(
-            partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)
-        ):
+        if isinstance(partici_.participant, (ChannelParticipantAdmin, ChannelParticipantCreator)):
             is_admin = True
     if not is_admin:
-        return await event.respond("ᴏɴʟʏ ᴀᴅᴍɪɴ ᴄᴀɴ ᴍᴇɴᴛɪᴏɴ ɢʀᴏᴜᴘ ᴀᴅᴍɪɴs")
+        return await event.respond("hanya admin yang bisa menggunakan perintah tersebut")
 
     if event.pattern_match.group(1) and event.is_reply:
-        return await event.respond("ɢɪᴠᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ")
+        return await event.respond("Berikan saya teks")
     elif event.pattern_match.group(1):
         mode = "text_on_cmd"
         msg = event.pattern_match.group(1)
@@ -154,22 +153,22 @@ async def _(event):
         msg = await event.get_reply_message()
         if msg == None:
             return await event.respond(
-                "ɪ ᴄᴀɴ'ᴛ ᴍᴇɴᴛɪᴏɴ ᴍᴇᴍʙᴇʀs ꜰᴏʀ ᴏʟᴅᴇʀ ᴍᴇssᴀɢᴇs! (ᴍᴇssᴀɢᴇs ᴡʜɪᴄʜ ᴀʀᴇ sᴇɴᴛ ʙᴇꜰᴏʀᴇ ɪ'ᴍ ᴀᴅᴅᴇᴅ ᴛᴏ ɢʀᴏᴜᴘ)"
+                "Tambahkan Saya di group anda dan jadikan saya admin."
             )
     else:
         return await event.respond(
-            "ʀᴇᴘʟʏ ᴛᴏ ᴀ ᴍᴇssᴀɢᴇ ᴏʀ ɢɪᴠᴇ ᴍᴇ sᴏᴍᴇ ᴛᴇxᴛ ᴛᴏ ᴍᴇɴᴛɪᴏɴ ᴏᴛʜᴇʀs!"
+            "Balas pesan atau beri saya beberapa teks untuk menyebutkan orang lain"
         )
 
     spam_chats.append(chat_id)
     usrnum = 0
-    usrtxt = ""
+    usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Adding the box format
     chat = await event.get_input_chat()
     async for x in client.iter_participants(chat, filter=ChannelParticipantsAdmins):
         if not chat_id in spam_chats:
             break
         usrnum += 1
-        usrtxt += f" \n [{x.first_name}](tg://user?id={x.id})"
+        usrtxt += f"┈➤ [{x.first_name}](tg://user?id={x.id})\n"  # Formatting with the clickable username
         if usrnum == 5:
             if mode == "text_on_cmd":
                 txt = f"{usrtxt}\n\n{msg}"
@@ -178,11 +177,12 @@ async def _(event):
                 await msg.reply(usrtxt)
             await asyncio.sleep(2)
             usrnum = 0
-            usrtxt = ""
+            usrtxt = "╒══════════════════╕\n                text\n╘══════════════════╛\n"  # Reset the box for the next batch
     try:
         spam_chats.remove(chat_id)
     except:
         pass
+
 
 
 print("Bot is running...")
