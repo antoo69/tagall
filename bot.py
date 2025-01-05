@@ -45,6 +45,26 @@ async def help(event):
     )
     await event.reply(helptext, link_preview=False)
 
+@client.on(events.NewMessage(pattern="^/cancel$"))
+async def cancel_spam(event):
+    if event.chat_id not in spam_chats:
+        return await event.respond("No process is ongoing.")
+    spam_chats.remove(event.chat_id)
+    await event.respond("Process stopped.")
+
+@client.on(events.NewMessage(pattern="^/owner$"))
+async def owner(event):
+    chat_id = event.chat_id
+    if not event.is_private:
+        return await event.respond("Please wait .... ")
+    ownertext = """✪ Menu Owner Bot Mention
+
+✪ Saya [ᴮ⃮⃯˅• ꜰ໑ʀᴆɪ! ᴅԍ⃮⃯⃖⃗ᴙᴤ°](https://t.me/fsyrl9) Owner
+✪ 
+✪ Store [Ferdi Store!](https://t.me/Galerifsyrl)
+✪ Info bot lain kunjungi [Ferdi Support](https://t.me/FerdiSupport)"""
+    await event.reply(ownertext)
+
 @client.on(events.NewMessage(pattern="^/utag ?(.*)"))
 async def mentionall(event):
     chat_id = event.chat_id
@@ -106,26 +126,6 @@ async def mentionall(event):
         pass
 
 
-@client.on(events.NewMessage(pattern="^/cancel$"))
-async def cancel_spam(event):
-    if event.chat_id not in spam_chats:
-        return await event.respond("No process is ongoing.")
-    spam_chats.remove(event.chat_id)
-    await event.respond("Process stopped.")
-
-@client.on(events.NewMessage(pattern="^/owner$"))
-async def owner(event):
-    chat_id = event.chat_id
-    if not event.is_private:
-        return await event.respond("Please wait .... ")
-    ownertext = """✪ Menu Owner Bot Mention
-
-✪ Saya [ᴮ⃮⃯˅• ꜰ໑ʀᴆɪ! ᴅԍ⃮⃯⃖⃗ᴙᴤ°](https://t.me/fsyrl9) Owner
-✪ 
-✪ Store [Ferdi Store!](https://t.me/Galerifsyrl)
-✪ Info bot lain kunjungi [Ferdi Support](https://t.me/FerdiSupport)"""
-    await event.reply(ownertext)
-
 @client.on(events.NewMessage(pattern="^/atag ?(.*)"))
 async def mention_admins(event):
     chat_id = event.chat_id
@@ -182,6 +182,7 @@ async def mention_admins(event):
         spam_chats.remove(chat_id)
     except:
         pass
+
 
 
 print("Bot is running...")
